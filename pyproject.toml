@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vsinstall"
+version = "0.0.1"
+requires-python = "~= 3.12"
+dependencies = [
+    "requests",
+    "click"
+]
+
+[project.scripts]
+vsinstall = "vsinstall.main:main"
+
+[tool.poe.tasks]
+setup = "pip install ."
+run = "vsinstall"
