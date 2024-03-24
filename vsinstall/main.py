@@ -60,8 +60,13 @@ def install_vscode_portable(download_folder, size):
     download_file(VSCODE_URL, vscode_zip, size)
     unzip(vscode_zip, fullpath)
     makeDataDirectories(fullpath)
-    vscode_zip.unlink()
-    return fullpath
+    
+    print("Still here...")
+    vscode_binary = fullpath / "Code.exe"
+    print(vscode_binary)
+    print("Success. Now opening VSCode Portable...")
+    subprocess.Popen([vscode_binary])    
+    vscode_zip.unlink() # Seems like anything after this line ends program, need to investigate, maybe try/catch
 
 def get_file_size(url: str) -> int:
     try:
@@ -87,15 +92,13 @@ def get_file_size(url: str) -> int:
 @click.option('--name', prompt='VSCode folder name')
 def vscode_install(name):
     global zip_size
-    return install_vscode_portable(name, zip_size)
+    install_vscode_portable(name, zip_size)
+
+     
 
 def main():
     global zip_size
     zip_size = get_file_size(VSCODE_URL)
     print(f"File size: {zip_size} bytes")
-    vscode_folder = vscode_install()
-    print(vscode_folder)
-    vscode_binary = vscode_folder / "Code.exe"
-    print("Success. Now opening VSCode Portable...")
-    subprocess.Popen([vscode_binary])
-    sys.exit(0)    
+    vscode_install()
+  
